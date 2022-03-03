@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/style.css">
+
+    <title>&copy;&nbsp;2019&nbsp;Тинькофф&nbsp;Прокат</title>
+</head>
+
+<body class="body">
+    <header role="banner">
+        <nav class="top-nav" role="navigation">
+            <a href="##">
+                <img src="./img/logo.svg" alt="Тинькофф Прокат">
+            </a>
+        </nav>
+    </header>
+
+    <!-- main search_active search_more-history search_live search_not-found scroll -->
+    <main class="main" role="main">
+        <section class="search-box">
+            <form class="search-form" action="" method="get" autocomplete="off" role="search">
+                <div class="search-form__line">
+                    <button class="search-form__button" type="submit"></button>
+                    <input class="search-form__input" type="search" name="query"
+                        placeholder="Поиск фильмов по жанрам и актерам" required>
+                </div>
+
+                <hr class="search-form__hr">
+
+                <div class="search-form__prompts">
+                    <div class="search-prompts-container">
+                        <button class="search-prompt" type="button">Как я встретил мамку</button>
+                        <button class="search-prompt" type="button">Гоп-стоп</button>
+                        <button class="search-prompt" type="button">Весенний дрозд</button>
+                        <button class="search-prompt search-box__prompts_more" type="button">Белоснежка и семь
+                            гномов</button>
+                        <button class="search-prompt search-box__prompts_more" type="button">Трое в лодке</button>
+                        <button class="search-prompt search-box__prompts_more" type="button">Бандитский
+                            петербург</button>
+                        <button class="search-prompt search-box__prompts_more" type="button">Спящая женщина и
+                            принц</button>
+                        <button class="search-prompt search-box__prompts_more" type="button">Война миров</button>
+                        <button class="search-prompt search-box__prompts_more" type="button">Дикий дикий дикий
+                            запад</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <section class="results">
+            <div class="results-found">
+                <p class="results__resume">
+                    Нашли 82 фильма
+                </p>
+
+                <div class="results__block results-container">
+                    <div class="result result_with-description result_with-poster">
+                        <div class="result-poster">
+                            <img class="result-poster__image" src="./img/films/Forrest_Gump.png" alt="Форрест Гамп">
+                        </div>
+
+                        <div class="result-description">
+                            <div class="result-description__rating">
+                                <div class="rating-emoji rating-emoji_excellent"></div>
+                                <p class="result-description__rating-points">4,5</p>
+                            </div>
+                            <div class="result-description__title">
+                                <p class="result-description__title-text">
+                                    Форрест Гамп
+                                </p>
+                            </div>
+                            <div class="result-description__genre-year">
+                                <p class="result-description__genre">
+                                    Драма, комедия, мелодрама, история, военный
+                                </p>
+                                <p class="result-description__year">
+                                    1994
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result result_with-description result_with-poster">
+                        <div class="result-poster">
+                            <img class="result-poster__image" src="./img/films/Saving_Private_Ryan.png"
+                                alt="Спасти рядового Райана">
+                        </div>
+
+                        <div class="result-description">
+                            <div class="result-description__rating">
+                                <div class="rating-emoji rating-emoji_excellent"></div>
+                                <p class="result-description__rating-points">4,1</p>
+                            </div>
+                            <div class="result-description__title">
+                                <p class="result-description__title-text">
+                                    Спасти рядового Райана
+                                </p>
+                            </div>
+                            <div class="result-description__genre-year">
+                                <p class="result-description__genre">
+                                    Военный, драма
+                                </p>
+                                <p class="result-description__year">
+                                    1998
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result result_with-description result_with-poster">
+                        <div class="result-poster">
+                            <img class="result-poster__image" src="./img/films/Apollo_13.png" alt="Аполлон-13">
+                        </div>
+
+                        <div class="result-description">
+                            <div class="result-description__rating">
+                                <div class="rating-emoji rating-emoji_very-good"></div>
+                                <p class="result-description__rating-points">3,9</p>
+                            </div>
+                            <div class="result-description__title">
+                                <p class="result-description__title-text">
+                                    Аполлон-13
+                                </p>
+                            </div>
+                            <div class="result-description__genre-year">
+                                <p class="result-description__genre">
+                                    Драма, приключения, история
+                                </p>
+                                <p class="result-description__year">
+                                    1995
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result result_with-description result_with-poster">
+                        <div class="result-poster">
+                            <img class="result-poster__image" src="./img/films/Inferno.png" alt="Инферно">
+                        </div>
+
+                        <div class="result-description">
+                            <div class="result-description__rating">
+                                <div class="rating-emoji rating-emoji_very-good"></div>
+                                <p class="result-description__rating-points">3,2</p>
+                            </div>
+                            <div class="result-description__title">
+                                <p class="result-description__title-text">
+                                    Инферно
+                                </p>
+                            </div>
+                            <div class="result-description__genre-year">
+                                <p class="result-description__genre">
+                                    Боевик, триллер, драма, криминал, детектив, приключения
+                                </p>
+                                <p class="result-description__year">
+                                    2016
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result result_with-description">
+                        <div class="result-poster">
+                            <img class="result-poster__image" src="" alt="">
+                        </div>
+
+                        <div class="result-description">
+                            <div class="result-description__title">
+                                <p class="result-description__title-text">
+                                    Шпионский мост
+                                </p>
+                            </div>
+                            <div class="result-description__genre-year">
+                                <p class="result-description__genre">
+                                    Боевик, триллер
+                                </p>
+                                <p class="result-description__year">
+                                    2017
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result result_with-description result_with-poster">
+                        <div class="result-poster">
+                            <img class="result-poster__image" src="./img/films/Sully.png" alt="Чудо на Гудзоне">
+                        </div>
+
+                        <div class="result-description">
+                            <div class="result-description__rating">
+                                <div class="rating-emoji rating-emoji_very-good"></div>
+                                <p class="result-description__rating-points">3,7</p>
+                            </div>
+                            <div class="result-description__title">
+                                <p class="result-description__title-text">
+                                    Чудо на Гудзоне
+                                </p>
+                            </div>
+                            <div class="result-description__genre-year">
+                                <p class="result-description__genre">
+                                    Драма, биография
+                                </p>
+                                <p class="result-description__year">
+                                    2016
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result result_with-description result_with-poster">
+                        <div class="result-poster">
+                            <img class="result-poster__image" src="./img/films/The_Terminal.png" alt="Терминал">
+                        </div>
+
+                        <div class="result-description">
+                            <div class="result-description__rating">
+                                <div class="rating-emoji rating-emoji_excellent"></div>
+                                <p class="result-description__rating-points">4,1</p>
+                            </div>
+                            <div class="result-description__title">
+                                <p class="result-description__title-text">
+                                    Терминал
+                                </p>
+                            </div>
+                            <div class="result-description__genre-year">
+                                <p class="result-description__genre">
+                                    Драма, мелодрама, комедия
+                                </p>
+                                <p class="result-description__year">
+                                    2004
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result result_with-description result_with-poster">
+                        <div class="result-poster">
+                            <img class="result-poster__image" src="./img/films/How_to_Train_Your_Dragon_3.png"
+                                alt="Как приручить дракона 3">
+                        </div>
+
+                        <div class="result-description">
+                            <div class="result-description__rating">
+                                <div class="rating-emoji rating-emoji_very-good"></div>
+                                <p class="result-description__rating-points">3,9</p>
+                            </div>
+                            <div class="result-description__title">
+                                <p class="result-description__title-text">
+                                    Как приручить дракона 3
+                                </p>
+                            </div>
+                            <div class="result-description__genre-year">
+                                <p class="result-description__genre">
+                                    Мультфильм, фэнтези, боевик, драма, мелодрама, комедия, приключения, семейный
+                                </p>
+                                <p class="result-description__year">
+                                    2019
+                                </p>
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+            <div class="results-not-found">
+                <p class="results__resume">
+                    Мы не поняли о чем речь ¯\_(ツ)_/¯
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bottom-footer" role="contentinfo">
+        <p class="bottom-footer__text">
+            &copy;&nbsp;2019&nbsp;Тинькофф&nbsp;Прокат
+        </p>
+    </footer>
+</body>
+
+</html>

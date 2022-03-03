@@ -1,0 +1,399 @@
+:root {
+    /* Ширина макета (lw - layout width) */
+    --lw: 1440;
+}
+
+.main {
+    /* Горизонтальный отступ (hm - horizontal margin) */
+    --main-hm: 80;
+    /* Ширина main на макете */
+    --main-lw: calc(var(--lw) - 2 * var(--main-hm));
+
+    margin: 54px calc(var(--main-hm) * 1px) auto;
+
+    /* Чтобы занимал оставшееся пространство */
+    flex-grow: 1;
+}
+
+/* Строка поиска */
+/* Состояние: "обычное не в фокусе" (`1 - search` на макетах) */
+.search-box {
+    --search-box-lw: 628;
+
+    width: calc((var(--search-box-lw) / var(--main-lw)) * 100%);
+    margin: auto;
+}
+
+/* Строка поиска */
+.search-form__line {
+    --search-form__line-lw: 502;
+    width: calc((var(--search-form__line-lw) / var(--search-box-lw)) * 100%);
+    margin: auto;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.search-form__button {
+    display: block;
+    width: 48px;
+    height: 48px;
+    border: none;
+    cursor: pointer;
+
+    background: url('../img/search.svg') no-repeat;
+    background-size: contain;
+}
+
+.search-form__input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    margin-left: 8px;
+
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 36px;
+    color: rgba(255, 255, 255, 1);
+
+    display: flex;
+    align-items: center;
+}
+
+/* Крестик в строке поиска */
+.search-form__input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    content: url('../img/cancel.svg');
+    width: 26px;
+}
+
+/* Подсвеченный крестик при наведении */
+.search-form__input::-webkit-search-cancel-button:hover {
+    content: url('../img/cancel-hover.svg');
+    cursor: pointer;
+}
+
+/* Цвет при placeholder (при отсутствии фокуса) */
+.search-form__input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Подсказки */
+.search-form__prompts {
+    display: none;
+    margin-top: 24px;
+}
+
+.search-box__prompts_more {
+    display: none;
+}
+
+.search-prompts-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.search-prompt {
+    border: none;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 6px 16px;
+
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.search-prompt:hover {
+    background: rgba(255, 255, 255, 1);
+}
+
+.search-form__hr {
+    /* Толщина линии */
+    --border-thickness: 1px;
+    border: var(--border-thickness) solid rgba(255, 255, 255, 1);
+    border-radius: var(--border-thickness);
+    margin: auto;
+    margin-top: 11px;
+}
+
+/* Результаты поиска */
+.results {
+    display: none;
+    margin-top: 100px;
+}
+
+/* Состояние: "поиск ещё не выполнялся" (`1 - search`, `2 - search_active`, `2 - search_active (more history)` на макетах) */
+.results-found, .results-not-found {
+    display: none;
+}
+
+.results__resume {
+    font-weight: 900;
+    font-size: 36px;
+    line-height: 48px;
+
+    display: flex;
+    align-items: center;
+}
+
+.results__block {
+    margin-top: 36px;
+}
+
+.results-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 24px;
+}
+
+/* Карточка с фильмом (по умолчанию в состоянии загрузки) */
+.result {
+    position: relative;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.24);
+
+    color: rgba(255, 255, 255, 0.24);
+}
+
+.result_with-poster {
+    color: rgba(255, 255, 255, 1);
+}
+
+/* Постер фильма */
+.result-poster {
+    display: none;
+
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.result-poster__image {
+    border-radius: 12px;
+    width: 100%;
+    height: 100%;
+}
+
+.result_with-poster .result-poster {
+    display: block;
+}
+
+/* Краткое описание */
+.result-description {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    cursor: pointer;
+    padding: 0 36px 68px 20px;
+
+    display: none;
+}
+
+.result_with-description .result-description {
+    padding: 20px;
+    padding-top: auto;
+}
+
+.result:hover .result-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 26.43%, rgba(0, 0, 0, 0.8) 72.41%);
+    backdrop-filter: blur(2px);
+}
+
+.result-description__stub {
+    display: block;
+
+    height: 24px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.result-description__stub_first-line {
+    width: 100%;
+}
+
+.result-description__stub_second-line {
+    /* Ширины 1-ой и 2-ой строк при загрузке текста */
+    --first-line-lw: 246;
+    --second-line-lw: 156;
+
+    width: calc((var(--second-line-lw) / var(--first-line-lw)) * 100%);
+    margin-top: 8px;
+}
+
+/* Рейтинг */
+.result-description__rating {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Рейтинговые эмодзи */
+.rating-emoji {
+    width: 24px;
+    height: 24px;
+}
+
+.rating-emoji_poor {
+    background: url('../img/ratings/0-1.svg') no-repeat;
+    background-size: contain;
+}
+
+.rating-emoji_fair {
+    background: url('../img/ratings/1-2.svg') no-repeat;
+    background-size: contain;
+}
+
+.rating-emoji_good {
+    background: url('../img/ratings/2-3.svg') no-repeat;
+    background-size: contain;
+}
+
+.rating-emoji_very-good {
+    background: url('../img/ratings/3-4.svg') no-repeat;
+    background-size: contain;
+}
+
+.rating-emoji_excellent {
+    background: url('../img/ratings/4-5.svg') no-repeat;
+    background-size: contain;
+}
+
+/* Численный рейтинг */
+.result-description__rating-points {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 36px;
+
+    display: flex;
+    align-items: center;
+}
+
+.result-description__rating-points::before {
+    content: '\00a0';
+}
+
+/* Название */
+.result-description__title {
+    margin-top: 4px;
+}
+
+.result-description__title-text {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+
+    display: flex;
+    align-items: center;
+}
+
+/* Жанр и год */
+.result-description__genre-year {
+    width: 100%;
+    margin-top: 16px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.result-description__genre {
+    display: flex;
+    align-items: center;
+}
+
+.result-description__year {
+    display: flex;
+    align-items: center;
+
+    text-align: right;
+}
+
+/* Состояния */
+/* Поиск ещё не выполнялся (`1 - search`, `2 - search_active`, `2 - search_active (more history)` на макетах) */
+/* Строка поиска: "обычное в фокусе" (`2 - search_active`, `2 - search_active (more history)`, `3 - search_live`, `4 - search_not_found` на макетах) */
+.search_active .search-box {
+    width: 100%;
+}
+
+.search_active .search-form__line {
+    width: 100%;
+}
+
+.search_active .search-form__hr {
+    border-color: rgba(253, 206, 37, 1);
+}
+
+.search_active .search-form__prompts {
+    display: block;
+}
+
+/* Больше подсказок */
+.search_more-history .search-box__prompts_more {
+    display: block;
+}
+
+/* Поиск с результатами (`3 - search_live` на макетах) */
+.search_live .results {
+    display: block;
+}
+
+.search_live .results-found {
+    display: block;
+}
+
+/* Поиск без результатов (`4 - search_not_found` на макетах) */
+.search_not-found .results {
+    display: block;
+}
+
+.search_not-found .results-not-found {
+    display: block;
+}
+
+/* Страница проскроллена вниз (`5 - scroll` на макетах) */
+/* Подсказки скрываются */
+.scroll .search-form__prompts {
+    display: none;
+}
+
+/* Строка поиска: "на всю ширину экрана" (`5 - scroll` на макетах) */
+.scroll .search-box {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+
+    background: rgba(28, 28, 28, 0.8);
+    backdrop-filter: blur(4px);
+}
+
+.scroll .search-form__line {
+    margin-top: 12px;
+    width: calc(100% - 2 * var(--main-hm) * 1px);
+}
+
+.scroll .search-form__hr {
+    border-color: rgba(255, 255, 255, 1);
+}

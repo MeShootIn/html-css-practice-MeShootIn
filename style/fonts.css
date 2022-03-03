@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'Roboto';
+    /* swap: сразу же отрисовывается запасной шрифт, после загрузки шрифта - повторный рендеринг */
+    font-display: swap;
+    /* Браузер сначала попробует найти шрифт локально */
+    src: local('Roboto-Regular'),
+        local('Roboto'),
+        /* Если не получилось, то загрузит с данного сайта */
+        url('../fonts/Roboto/Roboto-Regular.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-display: swap;
+    font-weight: bold;
+    src: local('Roboto-Bold'),
+        url('../fonts/Roboto/Roboto-Bold.ttf') format('ttf');
+}

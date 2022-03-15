@@ -6,7 +6,7 @@
     src: local('Roboto-Regular'),
         local('Roboto'),
         /* Если не получилось, то загрузит с данного сайта */
-        url('../fonts/Roboto/Roboto-Regular.ttf') format('ttf');
+        url('../fonts/Roboto/Roboto-Regular.woff2') format('woff2');
 }
 
 @font-face {
@@ -14,5 +14,5 @@
     font-display: swap;
     font-weight: bold;
     src: local('Roboto-Bold'),
-        url('../fonts/Roboto/Roboto-Bold.ttf') format('ttf');
+        url('../fonts/Roboto/Roboto-Bold.woff2') format('woff2');
 }

@@ -15,23 +15,28 @@
     flex-grow: 1;
 }
 
+@media screen and (min-width: 1440px) {
+    .main {
+        width: calc(var(--main-lw) * 1px);
+        margin: auto;
+        margin-top: 54px;
+    }
+}
+
 /* Строка поиска */
 /* Состояние: "обычное не в фокусе" (`1 - search` на макетах) */
 .search-box {
-    --search-box-lw: 628;
-
-    width: calc((var(--search-box-lw) / var(--main-lw)) * 100%);
+    max-width: 628px;
     margin: auto;
 }
 
 /* Строка поиска */
 .search-form__line {
-    --search-form__line-lw: 502;
-    width: calc((var(--search-form__line-lw) / var(--search-box-lw)) * 100%);
+    width: 100%;
     margin: auto;
 
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
 }
 
@@ -48,6 +53,7 @@
 
 .search-form__input {
     width: 100%;
+    max-width: 460px;
     background: transparent;
     border: none;
     outline: none;
@@ -98,7 +104,7 @@
 }
 
 .search-prompt {
-    border: none;
+    cursor: pointer;
     border-radius: 4px;
     background: rgba(255, 255, 255, 0.8);
     padding: 6px 16px;
@@ -115,9 +121,11 @@
 
 .search-form__hr {
     /* Толщина линии */
-    --border-thickness: 1px;
-    border: var(--border-thickness) solid rgba(255, 255, 255, 1);
-    border-radius: var(--border-thickness);
+    --border-height: 2px;
+
+    border-color: rgba(255, 255, 255, 1);
+    border-width: var(--border-height);
+    border-radius: var(--border-height);
     margin: auto;
     margin-top: 11px;
 }
@@ -187,7 +195,7 @@
 /* Краткое описание */
 .result-description {
     position: absolute;
-    z-index: 2;
+    z-index: 10;
     top: 0;
     left: 0;
     width: 100%;
@@ -332,11 +340,17 @@
 /* Поиск ещё не выполнялся (`1 - search`, `2 - search_active`, `2 - search_active (more history)` на макетах) */
 /* Строка поиска: "обычное в фокусе" (`2 - search_active`, `2 - search_active (more history)`, `3 - search_live`, `4 - search_not_found` на макетах) */
 .search_active .search-box {
+    max-width: none;
     width: 100%;
 }
 
 .search_active .search-form__line {
+    justify-content: flex-start;
     width: 100%;
+}
+
+.search_active .search-form__input {
+    max-width: none;
 }
 
 .search_active .search-form__hr {
@@ -392,6 +406,7 @@
 .scroll .search-form__line {
     margin-top: 12px;
     width: calc(100% - 2 * var(--main-hm) * 1px);
+    max-width: calc(var(--main-lw) * 1px);
 }
 
 .scroll .search-form__hr {

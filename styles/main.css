@@ -1,0 +1,201 @@
+:root {
+  /* Ширина макета (lw - layout width) */
+  --lw: 1440;
+}
+
+.main {
+  /* Горизонтальный отступ (hm - horizontal margin) */
+  --main-hm: 80;
+  /* Ширина main на макете */
+  --main-lw: calc(var(--lw) - 2 * var(--main-hm));
+
+  margin: 54px calc(var(--main-hm) * 1px) auto;
+
+  /* Чтобы занимал оставшееся пространство */
+  flex-grow: 1;
+}
+
+@media screen and (min-width: 1440px) {
+  .main {
+    width: calc(var(--main-lw) * 1px);
+    margin: 54px auto auto;
+  }
+}
+
+/* Строка поиска */
+/* Состояние: "обычное не в фокусе" (`1 - search` на макетах) */
+.search-box {
+  max-width: 628px;
+  margin: auto;
+}
+
+.search-form__line {
+  width: 100%;
+  margin: auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-form__button {
+  display: block;
+  width: 48px;
+  height: 48px;
+  border: none;
+  cursor: pointer;
+
+  background: url('../images/search.svg') no-repeat;
+  background-size: contain;
+}
+
+.search-form__input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+
+  display: flex;
+  align-items: center;
+
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 36px;
+  color: rgba(255, 255, 255, 1);
+}
+
+.search-form__input-label {
+  width: 100%;
+  max-width: 460px;
+  margin-left: 8px;
+}
+
+/* Крестик в строке поиска */
+.search-form__input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  content: url('../images/cancel.svg');
+  width: 26px;
+}
+
+/* Подсвеченный крестик при наведении */
+.search-form__input::-webkit-search-cancel-button:hover {
+  content: url('../images/cancel-hover.svg');
+  cursor: pointer;
+}
+
+/* Цвет при placeholder (при отсутствии фокуса) */
+.search-form__input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Подсказки */
+.search-form__tags {
+  display: none;
+  margin-top: 24px;
+}
+
+/* TODO */
+.search-box__tags_more {
+  display: none;
+}
+
+.search-form__hr {
+  /* Толщина линии */
+  --border-height: 2px;
+
+  border-color: rgba(255, 255, 255, 1);
+  border-width: var(--border-height);
+  border-radius: var(--border-height);
+  margin: 11px auto auto;
+}
+
+/* Результаты поиска */
+.results {
+  display: none;
+  margin-top: 100px;
+}
+
+.results__resume {
+  font-weight: 900;
+  font-size: 36px;
+  line-height: 48px;
+
+  display: flex;
+  align-items: center;
+}
+
+.results__block {
+  margin-top: 36px;
+}
+
+.result-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 24px;
+}
+
+/* Состояния */
+/* Поиск ещё не выполнялся (`1 - search`, `2 - search_active`, `2 -
+search_active (more history)` на макетах) */
+/* Строка поиска: "обычное в фокусе" (`2 - search_active`, `2 - search_active
+(more history)`, `3 - search_live`) */
+.search_active .search-box {
+  max-width: none;
+  width: 100%;
+}
+
+.search_active .search-form__line {
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.search_active .search-form__input-label {
+  max-width: none;
+}
+
+.search_active .search-form__hr {
+  border-color: rgba(253, 206, 37, 1);
+}
+
+.search_active .search-form__tags {
+  display: block;
+}
+
+/* Больше подсказок */
+.search_more-history .search-box__tags_more {
+  display: block;
+}
+
+/* Поиск с результатами (`3 - search_live` на макетах) */
+.search_live .results {
+  display: block;
+}
+
+/* Страница проскроллена вниз (`5 - scroll` на макетах) */
+/* Подсказки скрываются */
+.scroll .search-form__tags {
+  display: none;
+}
+
+/* Строка поиска: "на всю ширину экрана" (`5 - scroll` на макетах) */
+.scroll .search-box {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+
+  background: rgba(28, 28, 28, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.scroll .search-form__line {
+  margin-top: 12px;
+  width: calc(100% - 2 * var(--main-hm) * 1px);
+  max-width: calc(var(--main-lw) * 1px);
+}
+
+.scroll .search-form__hr {
+  border-color: rgba(255, 255, 255, 1);
+}

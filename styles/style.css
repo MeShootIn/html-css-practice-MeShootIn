@@ -1,0 +1,19 @@
+@import url('border-box.css');
+@import url('fonts.css');
+@import url('header.css');
+@import url('main.css');
+@import url('footer.css');
+
+.body {
+  background: #1C1C1C;
+
+  /* Шрифт по-умолчанию */
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  color: rgba(255, 255, 255, 1);
+
+  /* Для прижатия футера к низу экрана */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

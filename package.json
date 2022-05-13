@@ -1,0 +1,12 @@
+{
+  "name": "html-css-practice-MeShootIn",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "./index.js",
+  "repository": "https://github.com/TFSchool/html-css-practice-MeShootIn.git",
+  "author": "MeShootIn <dmitriimishutin@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^4.6.3"
+  }
+}

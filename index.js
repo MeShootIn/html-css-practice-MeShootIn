@@ -8,6 +8,7 @@ import { bySearchAll } from './src/helpers/api-requests.js';
 import FilmCard from './src/components/film-card.js';
 import qSelector from './src/helpers/q-selector.js';
 import SearchTagContainer, { addSearchTag } from "./src/components/search-tag-container.js";
+// // DEBUG
 // const searchTagTitles: string[] = [
 //   'No Way Home',
 //   'no country for old men',
@@ -16,6 +17,8 @@ import SearchTagContainer, { addSearchTag } from "./src/components/search-tag-co
 //   'Kung Fury',
 //   'Back to the Future',
 // ];
+// localStorage.clear();
+// console.log('localStorage has been cleared');
 // localStorage.setItem('search-tags', JSON.stringify(searchTagTitles));
 const API_KEY = 'da979bab';
 const api = new OmdbApi(API_KEY);

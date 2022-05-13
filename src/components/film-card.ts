@@ -55,9 +55,12 @@ ${styleLinks}
   color: rgba(255, 255, 255, 0.24);
 }
 
+.film-link:hover, .film-link:visited, .film-link:link, .film-link:active {
+  text-decoration: none;
+}
+
 /* Постер фильма */
 .film-poster {
-  display: none;
   width: 100%;
   height: 100%;
 }
@@ -66,10 +69,6 @@ ${styleLinks}
   border-radius: 12px;
   width: 100%;
   height: 100%;
-}
-
-.film_with-poster .film-poster {
-  display: block;
 }
 
 /* Описание */
@@ -111,14 +110,21 @@ ${styleLinks}
   margin-top: 8px;
 }
 
+.displayer {
+  display: none;
+}
+
 /* Реальное описание */
 .film-description__full {
-  display: none;
   padding: 0 20px 20px;
 }
 
 .film_with-description .film-description__stubs {
   display: none;
+}
+
+.film_with-description .displayer {
+  display: inline;
 }
 
 .film:hover .film-description__full {
@@ -232,28 +238,32 @@ ${styleLinks}
 </style>
 
 <article class="film">
-  <div class="film-poster">
-    <img class="film-poster__image" src="" alt="">
-  </div>
-  
-  <div class="film-description film-description__stubs">
-    <div class="film-description-stub film-description-stub__first-line"></div>
-    <div class="film-description-stub film-description-stub__second-line"></div>
-  </div>
-  
-  <div class="film-description film-description__full">
-    <div class="film-description__rating">
-      <div class="rating-emoji"></div>
-      <p class="film-description__rating-points"></p>
+  <a class="film-link" href="##">
+    <div class="film-poster">
+      <img class="film-poster__image" src="" alt="">
     </div>
-    <div class="film-description__title">
-      <p class="film-description__title-text"></p>
+    
+    <div class="film-description film-description__stubs">
+      <div class="film-description-stub film-description-stub__first-line"></div>
+      <div class="film-description-stub film-description-stub__second-line"></div>
     </div>
-    <div class="film-description__genre-year">
-      <p class="film-description__genre"></p>
-      <p class="film-description__year"></p>
-    </div>
-  </div>
+    
+    <span class="displayer">
+      <div class="film-description film-description__full">
+        <div class="film-description__rating">
+          <div class="rating-emoji"></div>
+          <p class="film-description__rating-points"></p>
+        </div>
+        <div class="film-description__title">
+          <p class="film-description__title-text"></p>
+        </div>
+        <div class="film-description__genre-year">
+          <p class="film-description__genre"></p>
+          <p class="film-description__year"></p>
+        </div>
+      </div>
+    </span>
+  </a>
 </article>
 `;
 
@@ -269,7 +279,7 @@ export enum Params {
 export enum DefaultValues {
   Title = 'Название...',
   Year = 'Год...',
-  Poster = '../images/DefaultValues.Poster.gif',
+  Poster = 'images/film_loader.gif',
   Rating = 'Рейтинг...',
   Genre = 'Жанр...',
   Website = '##'
@@ -362,9 +372,6 @@ export default class FilmCard extends HTMLElement {
 
   connectedCallback() {
     const $film = qSelector<HTMLElement>('.film', this.sr);
-    $film.onclick = () => {
-      window.location.href = this.Website;
-    }
 
     if (
       this.Title !== DefaultValues.Title ??
@@ -375,16 +382,26 @@ export default class FilmCard extends HTMLElement {
       $film.classList.add('film_with-description');
     }
 
+    // Сайт
+    const $filmLink = qSelector<HTMLAnchorElement>('.film-link', $film);
+    $filmLink.href = this.Website;
+
     // Постер
     const $posterImage = qSelector<HTMLImageElement>(
       '.film-poster .film-poster__image', $film
     );
     $posterImage.alt = this.Title;
-    $posterImage.src = this.Poster;
+    $posterImage.src = DefaultValues.Poster;
 
     if (this.Poster !== DefaultValues.Poster) {
       $film.classList.add('film_with-poster');
     }
+
+    const $poster = document.createElement('img');
+    $poster.src = this.Poster;
+    $poster.addEventListener('load', () => {
+      $posterImage.src = $poster.src;
+    });
 
     // Реальное описание
     const $description = qSelector<HTMLDivElement>(

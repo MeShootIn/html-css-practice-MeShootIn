@@ -12,6 +12,7 @@ import SearchTagContainer, {
 } from "./src/components/search-tag-container.js";
 
 
+// // DEBUG
 // const searchTagTitles: string[] = [
 //   'No Way Home',
 //   'no country for old men',
@@ -20,6 +21,8 @@ import SearchTagContainer, {
 //   'Kung Fury',
 //   'Back to the Future',
 // ];
+// localStorage.clear();
+// console.log('localStorage has been cleared');
 // localStorage.setItem('search-tags', JSON.stringify(searchTagTitles));
 
 const API_KEY = 'da979bab';

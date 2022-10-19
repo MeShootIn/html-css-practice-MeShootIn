@@ -1,15 +1,42 @@
-import qSelector from '../helpers/q-selector.js';
-import enumParams from '../helpers/enum-params.js';
-import { NA } from "../api/omdb-api.js";
-import styleLinks from "../helpers/style-links.js";
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+          ({__proto__: []} instanceof Array && function (d, b) {
+              d.__proto__ = b;
+          }) ||
+          function (d, b) {
+              for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p];
+          };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+
+        function __() {
+            this.constructor = d;
+        }
+
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", {value: true});
+exports.DefaultValues = exports.Params = void 0;
+var q_selector_js_1 = require("../helpers/q-selector.js");
+var enum_params_js_1 = require("../helpers/enum-params.js");
+var omdb_api_js_1 = require("../apis/omdb-api.js");
+var style_links_js_1 = require("../helpers/style-links.js");
+
 function getRatingEmoji(rating) {
-    let numeric;
+    var numeric;
     switch (rating.Source) {
         case "Rotten Tomatoes":
             numeric = +rating.Value.slice(0, -1) / 100;
             break;
         default:
-            const parts = rating.Value.split('/');
+            var parts = rating.Value.split('/');
             numeric = +parts[0] / +parts[1];
             break;
     }
@@ -27,235 +54,10 @@ function getRatingEmoji(rating) {
     }
     return 'rating-emoji_excellent';
 }
-const $filmCardTemplate = document.createElement('template');
-$filmCardTemplate.innerHTML = `
-${styleLinks}
 
-<style>
-/* Карточка с фильмом (по умолчанию в состоянии загрузки) */
-.film {
-  position: relative;
-  border-radius: 12px;
-  width: 302px;
-  height: 454px;
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.24);
-
-  color: rgba(255, 255, 255, 0.24);
-}
-
-.film-link:hover, .film-link:visited, .film-link:link, .film-link:active {
-  text-decoration: none;
-}
-
-/* Постер фильма */
-.film-poster {
-  width: 100%;
-  height: 100%;
-}
-
-.film-poster__image {
-  border-radius: 12px;
-  width: 100%;
-  height: 100%;
-}
-
-/* Описание */
-.film-description {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-}
-
-/* Заглушки */
-.film-description__stubs {
-  padding: 0 36px 68px 20px;
-}
-
-.film-description-stub {
-  display: block;
-  height: 24px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.film-description-stub__first-line {
-  width: 100%;
-}
-
-.film-description-stub__second-line {
-  /* Ширины 1-ой и 2-ой строк при загрузке текста */
-  --first-line-lw: 246;
-  --second-line-lw: 156;
-
-  width: calc((var(--second-line-lw) / var(--first-line-lw)) * 100%);
-  margin-top: 8px;
-}
-
-.displayer {
-  display: none;
-}
-
-/* Реальное описание */
-.film-description__full {
-  padding: 0 20px 20px;
-}
-
-.film_with-description .film-description__stubs {
-  display: none;
-}
-
-.film_with-description .displayer {
-  display: inline;
-}
-
-.film:hover .film-description__full {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
-
-  background: linear-gradient(
-    180deg, rgba(0, 0, 0, 0) 26.43%, rgba(0, 0, 0, 0.8) 72.41%
-  );
-  backdrop-filter: blur(2px);
-}
-
-/* Рейтинг */
-.film-description__rating {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-/* Рейтинговые эмодзи */
-.rating-emoji {
-  width: 24px;
-  height: 24px;
-}
-
-.rating-emoji_poor {
-  background: url('../../images/rating/0-1.svg') no-repeat center center;
-  background-size: cover;
-}
-
-.rating-emoji_fair {
-  background: url('../../images/rating/1-2.svg') no-repeat center center;
-  background-size: cover;
-}
-
-.rating-emoji_good {
-  background: url('../../images/rating/2-3.svg') no-repeat center center;
-  background-size: cover;
-}
-
-.rating-emoji_very-good {
-  background: url('../../images/rating/3-4.svg') no-repeat center center;
-  background-size: cover;
-}
-
-.rating-emoji_excellent {
-  background: url('../../images/rating/4-5.svg') no-repeat center center;
-  background-size: cover;
-}
-
-/* Численный рейтинг */
-.film-description__rating-points {
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 36px;
-
-  display: flex;
-  align-items: center;
-}
-
-.film-description__rating-points::before {
-  content: '\\00a0';
-}
-
-/* Название */
-.film-description__title {
-  margin-top: 4px;
-}
-
-.film-description__title-text {
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 36px;
-
-  display: flex;
-  align-items: center;
-}
-
-.film_with-poster .film-description__rating-points, 
- .film-description__title-text {
-  color: rgba(255, 255, 255, 1);
-}
-
-/* Жанр и год */
-.film-description__genre-year {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-top: 16px;
-
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.film-description__genre {
-  display: flex;
-  align-items: center;
-}
-
-.film-description__year {
-  display: flex;
-  align-items: center;
-
-  text-align: right;
-}
-</style>
-
-<article class="film">
-  <a class="film-link" href="##">
-    <div class="film-poster">
-      <img class="film-poster__image" src="" alt="">
-    </div>
-    
-    <div class="film-description film-description__stubs">
-      <div class="film-description-stub film-description-stub__first-line"></div>
-      <div class="film-description-stub film-description-stub__second-line"></div>
-    </div>
-    
-    <span class="displayer">
-      <div class="film-description film-description__full">
-        <div class="film-description__rating">
-          <div class="rating-emoji"></div>
-          <p class="film-description__rating-points"></p>
-        </div>
-        <div class="film-description__title">
-          <p class="film-description__title-text"></p>
-        </div>
-        <div class="film-description__genre-year">
-          <p class="film-description__genre"></p>
-          <p class="film-description__year"></p>
-        </div>
-      </div>
-    </span>
-  </a>
-</article>
-`;
-export var Params;
+var $filmCardTemplate = document.createElement('template');
+$filmCardTemplate.innerHTML = "\n".concat(style_links_js_1.default, "\n\n<style>\n/* \u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u0441 \u0444\u0438\u043B\u044C\u043C\u043E\u043C (\u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E \u0432 \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0438 \u0437\u0430\u0433\u0440\u0443\u0437\u043A\u0438) */\n.film {\n  position: relative;\n  border-radius: 12px;\n  width: 302px;\n  height: 454px;\n  cursor: pointer;\n  background: rgba(255, 255, 255, 0.24);\n\n  color: rgba(255, 255, 255, 0.24);\n}\n\n.film-link:hover, .film-link:visited, .film-link:link, .film-link:active {\n  text-decoration: none;\n}\n\n/* \u041F\u043E\u0441\u0442\u0435\u0440 \u0444\u0438\u043B\u044C\u043C\u0430 */\n.film-poster {\n  width: 100%;\n  height: 100%;\n}\n\n.film-poster__image {\n  border-radius: 12px;\n  width: 100%;\n  height: 100%;\n}\n\n/* \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 */\n.film-description {\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  align-items: flex-start;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  border-radius: 12px;\n}\n\n/* \u0417\u0430\u0433\u043B\u0443\u0448\u043A\u0438 */\n.film-description__stubs {\n  padding: 0 36px 68px 20px;\n}\n\n.film-description-stub {\n  display: block;\n  height: 24px;\n  border-radius: 2px;\n  background: rgba(255, 255, 255, 0.08);\n}\n\n.film-description-stub__first-line {\n  width: 100%;\n}\n\n.film-description-stub__second-line {\n  /* \u0428\u0438\u0440\u0438\u043D\u044B 1-\u043E\u0439 \u0438 2-\u043E\u0439 \u0441\u0442\u0440\u043E\u043A \u043F\u0440\u0438 \u0437\u0430\u0433\u0440\u0443\u0437\u043A\u0435 \u0442\u0435\u043A\u0441\u0442\u0430 */\n  --first-line-lw: 246;\n  --second-line-lw: 156;\n\n  width: calc((var(--second-line-lw) / var(--first-line-lw)) * 100%);\n  margin-top: 8px;\n}\n\n.displayer {\n  display: none;\n}\n\n/* \u0420\u0435\u0430\u043B\u044C\u043D\u043E\u0435 \u043E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 */\n.film-description__full {\n  padding: 0 20px 20px;\n}\n\n.film_with-description .film-description__stubs {\n  display: none;\n}\n\n.film_with-description .displayer {\n  display: inline;\n}\n\n.film:hover .film-description__full {\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  align-items: flex-start;\n\n  background: linear-gradient(\n    180deg, rgba(0, 0, 0, 0) 26.43%, rgba(0, 0, 0, 0.8) 72.41%\n  );\n  backdrop-filter: blur(2px);\n}\n\n/* \u0420\u0435\u0439\u0442\u0438\u043D\u0433 */\n.film-description__rating {\n  display: flex;\n  justify-content: flex-start;\n  align-items: center;\n}\n\n/* \u0420\u0435\u0439\u0442\u0438\u043D\u0433\u043E\u0432\u044B\u0435 \u044D\u043C\u043E\u0434\u0437\u0438 */\n.rating-emoji {\n  width: 24px;\n  height: 24px;\n}\n\n.rating-emoji_poor {\n  background: url('../../images/rating/0-1.svg') no-repeat center center;\n  background-size: cover;\n}\n\n.rating-emoji_fair {\n  background: url('../../images/rating/1-2.svg') no-repeat center center;\n  background-size: cover;\n}\n\n.rating-emoji_good {\n  background: url('../../images/rating/2-3.svg') no-repeat center center;\n  background-size: cover;\n}\n\n.rating-emoji_very-good {\n  background: url('../../images/rating/3-4.svg') no-repeat center center;\n  background-size: cover;\n}\n\n.rating-emoji_excellent {\n  background: url('../../images/rating/4-5.svg') no-repeat center center;\n  background-size: cover;\n}\n\n/* \u0427\u0438\u0441\u043B\u0435\u043D\u043D\u044B\u0439 \u0440\u0435\u0439\u0442\u0438\u043D\u0433 */\n.film-description__rating-points {\n  font-weight: 400;\n  font-size: 24px;\n  line-height: 36px;\n\n  display: flex;\n  align-items: center;\n}\n\n.film-description__rating-points::before {\n  content: '\\00a0';\n}\n\n/* \u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 */\n.film-description__title {\n  margin-top: 4px;\n}\n\n.film-description__title-text {\n  font-weight: 700;\n  font-size: 24px;\n  line-height: 36px;\n\n  display: flex;\n  align-items: center;\n}\n\n.film_with-poster .film-description__rating-points, \n .film-description__title-text {\n  color: rgba(255, 255, 255, 1);\n}\n\n/* \u0416\u0430\u043D\u0440 \u0438 \u0433\u043E\u0434 */\n.film-description__genre-year {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 100%;\n  margin-top: 16px;\n\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 24px;\n  color: rgba(255, 255, 255, 0.4);\n}\n\n.film-description__genre {\n  display: flex;\n  align-items: center;\n}\n\n.film-description__year {\n  display: flex;\n  align-items: center;\n\n  text-align: right;\n}\n</style>\n\n<article class=\"film\">\n  <a class=\"film-link\" href=\"##\">\n    <div class=\"film-poster\">\n      <img class=\"film-poster__image\" src=\"\" alt=\"\">\n    </div>\n    \n    <div class=\"film-description film-description__stubs\">\n      <div class=\"film-description-stub film-description-stub__first-line\"></div>\n      <div class=\"film-description-stub film-description-stub__second-line\"></div>\n    </div>\n    \n    <span class=\"displayer\">\n      <div class=\"film-description film-description__full\">\n        <div class=\"film-description__rating\">\n          <div class=\"rating-emoji\"></div>\n          <p class=\"film-description__rating-points\"></p>\n        </div>\n        <div class=\"film-description__title\">\n          <p class=\"film-description__title-text\"></p>\n        </div>\n        <div class=\"film-description__genre-year\">\n          <p class=\"film-description__genre\"></p>\n          <p class=\"film-description__year\"></p>\n        </div>\n      </div>\n    </span>\n  </a>\n</article>\n");
+var Params;
 (function (Params) {
     Params["Title"] = "Title";
     Params["Year"] = "Year";
@@ -263,8 +65,8 @@ export var Params;
     Params["Rating"] = "Rating";
     Params["Genre"] = "Genre";
     Params["Website"] = "Website";
-})(Params || (Params = {}));
-export var DefaultValues;
+})(Params = exports.Params || (exports.Params = {}));
+var DefaultValues;
 (function (DefaultValues) {
     DefaultValues["Title"] = "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435...";
     DefaultValues["Year"] = "\u0413\u043E\u0434...";
@@ -272,95 +74,137 @@ export var DefaultValues;
     DefaultValues["Rating"] = "\u0420\u0435\u0439\u0442\u0438\u043D\u0433...";
     DefaultValues["Genre"] = "\u0416\u0430\u043D\u0440...";
     DefaultValues["Website"] = "##";
-})(DefaultValues || (DefaultValues = {}));
-const checkNA = (value) => (value !== NA) ? value : undefined;
-export default class FilmCard extends HTMLElement {
-    Ratings;
-    sr;
-    constructor(title, year, poster, ratings, genre, website) {
-        super();
-        this.Title = title;
-        this.Year = year;
-        this.Poster = poster;
-        this.Ratings = ratings ?? [];
-        this.Genre = genre;
-        this.Website = website;
-        const shadow = this.attachShadow({
+})(DefaultValues = exports.DefaultValues || (exports.DefaultValues = {}));
+var checkNA = function (value) {
+    return (value !== omdb_api_js_1.NA) ? value : undefined;
+};
+var FilmCard = /** @class */ (function (_super) {
+    __extends(FilmCard, _super);
+
+    function FilmCard(title, year, poster, ratings, genre, website) {
+        var _this = _super.call(this) || this;
+        _this.Title = title;
+        _this.Year = year;
+        _this.Poster = poster;
+        _this.Ratings = ratings !== null && ratings !== void 0 ? ratings : [];
+        _this.Genre = genre;
+        _this.Website = website;
+        var shadow = _this.attachShadow({
             mode: 'open'
         });
-        const $template = $filmCardTemplate.content.cloneNode(true);
+        var $template = $filmCardTemplate.content.cloneNode(true);
         shadow.appendChild($template);
-        this.sr = this.shadowRoot;
+        _this.sr = _this.shadowRoot;
+        return _this;
     }
-    static get observedAttributes() {
-        return enumParams(Params);
-    }
-    get Title() {
-        return this.getAttribute(Params.Title) ?? DefaultValues.Title;
-    }
-    set Title(value) {
-        this.setAttribute(Params.Title, checkNA(value) ?? this.Title);
-    }
-    get Year() {
-        return this.getAttribute(Params.Year) ?? DefaultValues.Year;
-    }
-    set Year(value) {
-        this.setAttribute(Params.Year, checkNA(value) ?? this.Year);
-    }
-    get Poster() {
-        return this.getAttribute(Params.Poster) ?? DefaultValues.Poster;
-    }
-    set Poster(value) {
-        this.setAttribute(Params.Poster, checkNA(value) ?? this.Poster);
-    }
-    get Rating() {
-        return this.getAttribute(Params.Rating) ?? DefaultValues.Rating;
-    }
-    set Rating(value) {
-        this.setAttribute(Params.Rating, checkNA(value) ?? this.Rating);
-    }
-    get Genre() {
-        return this.getAttribute(Params.Genre) ?? DefaultValues.Genre;
-    }
-    set Genre(value) {
-        this.setAttribute(Params.Genre, checkNA(value) ?? this.Genre);
-    }
-    get Website() {
-        return this.getAttribute(Params.Website) ?? DefaultValues.Website;
-    }
-    set Website(value) {
-        this.setAttribute(Params.Website, checkNA(value) ?? this.Website);
-    }
-    connectedCallback() {
-        const $film = qSelector('.film', this.sr);
-        if (this.Title !== DefaultValues.Title ??
-            this.Year !== DefaultValues.Year ??
-            this.Rating !== DefaultValues.Rating ??
-            this.Genre !== DefaultValues.Genre) {
+
+    Object.defineProperty(FilmCard, "observedAttributes", {
+        get: function () {
+            return (0, enum_params_js_1.default)(Params);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(FilmCard.prototype, "Title", {
+        get: function () {
+            var _a;
+            return (_a = this.getAttribute(Params.Title)) !== null && _a !== void 0 ? _a : DefaultValues.Title;
+        },
+        set: function (value) {
+            var _a;
+            this.setAttribute(Params.Title, (_a = checkNA(value)) !== null && _a !== void 0 ? _a : this.Title);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(FilmCard.prototype, "Year", {
+        get: function () {
+            var _a;
+            return (_a = this.getAttribute(Params.Year)) !== null && _a !== void 0 ? _a : DefaultValues.Year;
+        },
+        set: function (value) {
+            var _a;
+            this.setAttribute(Params.Year, (_a = checkNA(value)) !== null && _a !== void 0 ? _a : this.Year);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(FilmCard.prototype, "Poster", {
+        get: function () {
+            var _a;
+            return (_a = this.getAttribute(Params.Poster)) !== null && _a !== void 0 ? _a : DefaultValues.Poster;
+        },
+        set: function (value) {
+            var _a;
+            this.setAttribute(Params.Poster, (_a = checkNA(value)) !== null && _a !== void 0 ? _a : this.Poster);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(FilmCard.prototype, "Rating", {
+        get: function () {
+            var _a;
+            return (_a = this.getAttribute(Params.Rating)) !== null && _a !== void 0 ? _a : DefaultValues.Rating;
+        },
+        set: function (value) {
+            var _a;
+            this.setAttribute(Params.Rating, (_a = checkNA(value)) !== null && _a !== void 0 ? _a : this.Rating);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(FilmCard.prototype, "Genre", {
+        get: function () {
+            var _a;
+            return (_a = this.getAttribute(Params.Genre)) !== null && _a !== void 0 ? _a : DefaultValues.Genre;
+        },
+        set: function (value) {
+            var _a;
+            this.setAttribute(Params.Genre, (_a = checkNA(value)) !== null && _a !== void 0 ? _a : this.Genre);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(FilmCard.prototype, "Website", {
+        get: function () {
+            var _a;
+            return (_a = this.getAttribute(Params.Website)) !== null && _a !== void 0 ? _a : DefaultValues.Website;
+        },
+        set: function (value) {
+            var _a;
+            this.setAttribute(Params.Website, (_a = checkNA(value)) !== null && _a !== void 0 ? _a : this.Website);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    FilmCard.prototype.connectedCallback = function () {
+        var _a, _b, _c;
+        var $film = (0, q_selector_js_1.default)('.film', this.sr);
+        if ((_c = (_b = (_a = this.Title !== DefaultValues.Title) !== null && _a !== void 0 ? _a : this.Year !== DefaultValues.Year) !== null && _b !== void 0 ? _b : this.Rating !== DefaultValues.Rating) !== null && _c !== void 0 ? _c : this.Genre !== DefaultValues.Genre) {
             $film.classList.add('film_with-description');
         }
         // Сайт
-        const $filmLink = qSelector('.film-link', $film);
+        var $filmLink = (0, q_selector_js_1.default)('.film-link', $film);
         $filmLink.href = this.Website;
         // Постер
-        const $posterImage = qSelector('.film-poster .film-poster__image', $film);
+        var $posterImage = (0, q_selector_js_1.default)('.film-poster .film-poster__image', $film);
         $posterImage.alt = this.Title;
         $posterImage.src = DefaultValues.Poster;
         if (this.Poster !== DefaultValues.Poster) {
             $film.classList.add('film_with-poster');
         }
-        const $poster = document.createElement('img');
+        var $poster = document.createElement('img');
         $poster.src = this.Poster;
-        $poster.addEventListener('load', () => {
+        $poster.addEventListener('load', function () {
             $posterImage.src = $poster.src;
         });
         // Реальное описание
-        const $description = qSelector('.film-description__full', $film);
+        var $description = (0, q_selector_js_1.default)('.film-description__full', $film);
         // Рейтинг
-        const $rating = qSelector('.film-description__rating', $description);
-        const $ratingEmoji = qSelector('.rating-emoji', $rating);
+        var $rating = (0, q_selector_js_1.default)('.film-description__rating', $description);
+        var $ratingEmoji = (0, q_selector_js_1.default)('.rating-emoji', $rating);
         $ratingEmoji.textContent = '🤔';
-        const $ratingPoints = qSelector('.film-description__rating-points', $rating);
+        var $ratingPoints = (0, q_selector_js_1.default)('.film-description__rating-points', $rating);
         $ratingPoints.textContent = this.Rating;
         if (this.Ratings.length > 0) {
             $ratingEmoji.classList.add(getRatingEmoji(this.Ratings[0]));
@@ -368,14 +212,16 @@ export default class FilmCard extends HTMLElement {
             $ratingPoints.textContent = this.Ratings[0].Value;
         }
         // Название
-        const $title = qSelector('.film-description__title-text', $description);
+        var $title = (0, q_selector_js_1.default)('.film-description__title-text', $description);
         $title.textContent = this.Title;
         // Жанр и год
-        const $genreYear = qSelector('.film-description__genre-year', $description);
-        const $genre = qSelector('.film-description__genre', $genreYear);
+        var $genreYear = (0, q_selector_js_1.default)('.film-description__genre-year', $description);
+        var $genre = (0, q_selector_js_1.default)('.film-description__genre', $genreYear);
         $genre.textContent = this.Genre;
-        const $year = qSelector('.film-description__year', $genreYear);
+        var $year = (0, q_selector_js_1.default)('.film-description__year', $genreYear);
         $year.textContent = this.Year;
-    }
-}
+    };
+    return FilmCard;
+}(HTMLElement));
+exports.default = FilmCard;
 customElements.define('film-card', FilmCard);

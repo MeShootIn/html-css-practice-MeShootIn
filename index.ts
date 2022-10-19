@@ -3,7 +3,7 @@
  * 7ea4aa35
  * da979bab
  */
-import OmdbApi, {ApiResponse, ByIdResponse} from './src/api/omdb-api.js';
+import OmdbApi, {ApiResponse, ByIdResponse} from './src/apis/omdb-api.js';
 import {bySearchAll} from './src/helpers/api-requests.js';
 import FilmCard from './src/components/film-card.js';
 import qSelector from './src/helpers/q-selector.js';
@@ -32,7 +32,7 @@ const $searchTagContainer = new SearchTagContainer();
 qSelector<HTMLDivElement>('.search-form__tags')
   .appendChild($searchTagContainer);
 
-qSelector<HTMLInputElement>('.search-form')
+qSelector<HTMLFormElement>('.search-form')
   .addEventListener('submit', (event) => {
     event.preventDefault();
 

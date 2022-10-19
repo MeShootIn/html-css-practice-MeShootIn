@@ -1,4 +1,4 @@
-import OmdbApi, {ByIdResponse, BySearchResponse} from '../api/omdb-api.js';
+import OmdbApi, {ByIdResponse, BySearchResponse} from '../apis/omdb-api.js';
 import limitedRateCalls, {WrapFn} from './limited-rate-calls.js';
 
 

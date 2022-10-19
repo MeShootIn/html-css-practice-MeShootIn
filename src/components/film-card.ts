@@ -1,6 +1,6 @@
 import qSelector from '../helpers/q-selector.js';
 import enumParams from '../helpers/enum-params.js';
-import {NA, Rating} from "../api/omdb-api.js";
+import {NA, Rating} from "../apis/omdb-api.js";
 import styleLinks from "../helpers/style-links.js";
 
 

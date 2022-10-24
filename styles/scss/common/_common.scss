@@ -1,0 +1,27 @@
+// GLOBAL BORDER-BOX
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+
+// BODY
+
+.body {
+  background: #1C1C1C;
+
+  // Default font
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  color: rgba(255, 255, 255, 1);
+
+  // To push the footer to the bottom of the screen
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+

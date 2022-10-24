@@ -1,6 +1,8 @@
+@use "../../common";
+
+
 .bottom-footer {
-  display: flex;
-  justify-content: center;
+  @extend %flex-center;
 
   margin-top: 80px;
   padding-bottom: 16px;

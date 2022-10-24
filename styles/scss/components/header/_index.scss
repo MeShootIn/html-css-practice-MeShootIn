@@ -1,6 +1,8 @@
+@use "../../common";
+
+
 .top-nav {
-  display: flex;
-  justify-content: center;
+  @extend %flex-center;
 
   margin-top: 80px;
 }

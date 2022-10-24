@@ -1,0 +1,15 @@
+.bottom-footer {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 80px;
+  padding-bottom: 16px;
+
+  #{&}__heading {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: rgba(255, 255, 255, 0.4);
+  }
+}
+

@@ -29,6 +29,8 @@
   margin: auto;
 }
 
+.search-form {}
+
 .search-form__line {
   width: 100%;
   margin: auto;
@@ -83,7 +85,7 @@
   cursor: pointer;
 }
 
-/* Цвет при placeholder (при отсутствии фокуса) */
+/* Color when placeholder (when no focus) */
 .search-form__input::placeholder {
   color: rgba(255, 255, 255, 0.4);
 }
@@ -199,3 +201,4 @@ search_active (more history)` на макетах) */
 .scroll .search-form__hr {
   border-color: rgba(255, 255, 255, 1);
 }
+

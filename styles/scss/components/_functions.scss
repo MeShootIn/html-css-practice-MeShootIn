@@ -1,0 +1,10 @@
+/// Returns the relative path to the image in "images" directory from
+/// "components" directory.
+///
+/// @param {string} $image
+///   Relative path to the image from "images" directory.
+/// @return {string} needed path.
+@function image_url($image) {
+  @return '../../../../images/#{$image}';
+}
+

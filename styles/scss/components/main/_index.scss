@@ -1,0 +1,213 @@
+@use "../../common";
+@use "../functions";
+
+
+// MAIN TAG
+
+$-main-margin-horizontal: 80px;
+$-main-content-width: common.$content-width - 2 * $-main-margin-horizontal;
+$-main-margin-top: 54px;
+
+.main {
+  margin: $-main-margin-top $-main-margin-horizontal auto;
+
+  // Take up the remaining space
+  flex-grow: 1;
+}
+
+@media screen and (min-width: common.$content-width) {
+  .main {
+    width: $-main-content-width;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+
+// SEARCH LINE
+
+// State: "normal, unfocused" (`1 - search` на макетах)
+.search-box {
+  max-width: 628px;
+  margin: auto;
+}
+
+.search-form {
+  #{&}__line {
+    @extend %flex-center;
+
+    width: 100%;
+    margin: auto;
+    align-items: center;
+  }
+
+  #{&}__button {
+    @extend %block;
+
+    $size: 48px;
+
+    width: $size;
+    height: $size;
+    border: none;
+    cursor: pointer;
+
+    background: functions.image_url('search.svg') no-repeat;
+    background-size: contain;
+  }
+
+  #{&}__input {
+    @extend %flex-center;
+
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 36px;
+    color: rgba(255, 255, 255, 1);
+
+    // Cross in the search bar
+    &::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+      content: functions.image_url('cancel.svg');
+      width: 26px;
+    }
+
+    // Illuminated cross on hover
+    &::-webkit-search-cancel-button:hover {
+      content: functions.image_url('cancel-hover.svg');
+      cursor: pointer;
+    }
+
+    // Color when placeholder (when no focus)
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+  }
+
+  #{&}__input-label {
+    width: 100%;
+    max-width: 460px;
+    margin-left: 8px;
+  }
+
+  // Hints
+  #{&}__tags {
+    @extend %hidden;
+
+    margin-top: 24px;
+
+    // TODO
+    &_more {
+      @extend %hidden;
+    }
+  }
+
+  #{&}__hr {
+    // Line thickness
+    $border-height: 2px;
+
+    border-color: rgba(255, 255, 255, 1);
+    border-width: $border-height;
+    border-radius: $border-height;
+    margin: 11px auto auto;
+  }
+}
+
+
+// SEARCH RESULTS
+
+.results {
+  @extend %hidden;
+
+  margin-top: 100px;
+
+  #{&}__resume {
+    @extend %flex-center;
+
+    font-weight: 900;
+    font-size: 36px;
+    line-height: 48px;
+  }
+
+  #{&}__block {
+    margin-top: 36px;
+  }
+}
+
+.result-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 24px;
+}
+
+
+// STATES
+
+// Search not done yet (`1 - search`, `2 - search_active`, `2 - search_active
+// (more history)` in Figma)
+// Search line: "normal, focused" (`2 - search_active`, `2 - search_active (more
+// history)`, `3 - search_live`)
+.search_active .search-box {
+  max-width: none;
+  width: 100%;
+}
+
+.search_active .search-form__line {
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.search_active .search-form__input-label {
+  max-width: none;
+}
+
+.search_active .search-form__hr {
+  border-color: rgba(253, 206, 37, 1);
+}
+
+.search_active .search-form__tags {
+  @extend %block;
+}
+
+// More hints
+.search_more-history .search-box__tags_more {
+  @extend %block;
+}
+
+// Search with results (`3 - search_live` in Figma)
+.search_live .results {
+  @extend %block;
+}
+
+// Page scrolled down (`5 - scroll` in Figma)
+// Hints are hidden
+.scroll .search-form__tags {
+  @extend %hidden;
+}
+
+// Search line: "fullscreen" (`5 - scroll` in Figma)
+.scroll .search-box {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+
+  background: rgba(28, 28, 28, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.scroll .search-form__line {
+  margin-top: 12px;
+  width: calc(100% - 2 * $-main-margin-horizontal);
+  max-width: $-main-content-width;
+}
+
+.scroll .search-form__hr {
+  border-color: rgba(255, 255, 255, 1);
+}
+
